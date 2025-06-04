@@ -1,0 +1,1818 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEON SPACE | Кибербудущее</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Rajdhani', 'Segoe UI', Tahoma, sans-serif;
+        }
+
+        :root {
+            --neon-pink: #ff2a6d;
+            --neon-blue: #05d9e8;
+            --neon-purple: #d300c5;
+            --neon-green: #39ff14;
+            --neon-yellow: #ffd300;
+            --dark-bg: #0c0c15;
+            --glass: rgba(20, 20, 40, 0.6);
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap');
+
+        body {
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #1a1a2e 100%);
+            color: #e0e0ff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.6;
+            transition: background 0.5s ease;
+        }
+
+        /* Глитч-эффект для заголовка */
+        @keyframes glitch {
+            0% { text-shadow: 0.05em 0 0 var(--neon-pink); }
+            14% { text-shadow: -0.05em -0.025em 0 var(--neon-blue); }
+            15% { text-shadow: 0.025em 0.05em 0 var(--neon-purple); }
+            49% { text-shadow: 0.05em 0 0 var(--neon-pink); }
+            50% { text-shadow: -0.025em -0.05em 0 var(--neon-blue); }
+            99% { text-shadow: -0.05em 0 0 var(--neon-purple); }
+            100% { text-shadow: 0 0 0 transparent; }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Шапка */
+        header {
+            padding: 30px 0;
+            position: relative;
+            border-bottom: 1px solid rgba(255, 42, 109, 0.2);
+            z-index: 10;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, var(--neon-pink), var(--neon-blue));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: glitch 1.5s infinite;
+            display: inline-block;
+            transition: all 0.5s ease;
+            cursor: pointer;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+            text-shadow: 0 0 20px var(--neon-blue);
+        }
+
+        /* Стеклянная навигация */
+        nav {
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px solid rgba(93, 248, 255, 0.1);
+            box-shadow: 0 0 25px rgba(5, 217, 232, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            gap: 40px;
+        }
+
+        nav a {
+            color: #a0a0ff;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 500;
+            position: relative;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        nav a:hover {
+            color: var(--neon-blue);
+            transform: translateY(-3px);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--neon-pink);
+            transition: width 0.3s;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Герой-секция */
+        .hero {
+            text-align: center;
+            padding: 100px 0;
+            position: relative;
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero h1 {
+            font-size: 4.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, var(--neon-pink), var(--neon-blue));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1.1;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            font-family: 'Orbitron', sans-serif;
+            position: relative;
+        }
+
+        .hero h1::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--neon-blue), transparent);
+            box-shadow: 0 0 15px var(--neon-blue);
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            color: #c0c0ff;
+        }
+
+        /* Анимированный кот */
+        .cyber-cat {
+            width: 250px;
+            height: 200px;
+            margin: 40px auto;
+            position: relative;
+            perspective: 1000px;
+            transition: all 0.5s ease;
+        }
+
+        .cat-body {
+            width: 150px;
+            height: 100px;
+            background: linear-gradient(45deg, var(--neon-purple), var(--neon-blue));
+            border-radius: 75px 75px 40px 40px;
+            position: relative;
+            margin: 0 auto;
+            box-shadow: 0 0 20px var(--neon-purple);
+            transition: all 0.3s ease;
+        }
+
+        .cat-head {
+            width: 100px;
+            height: 80px;
+            background: linear-gradient(45deg, var(--neon-purple), var(--neon-blue));
+            border-radius: 50px 50px 40px 40px;
+            position: absolute;
+            top: -50px;
+            left: 25px;
+        }
+
+        .cat-ears {
+            position: absolute;
+            top: -80px;
+            left: 20px;
+            width: 60px;
+            height: 60px;
+        }
+
+        .ear {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-bottom: 30px solid var(--neon-pink);
+        }
+
+        .ear.left {
+            left: 0;
+            transform: rotate(-20deg);
+        }
+
+        .ear.right {
+            right: 0;
+            transform: rotate(20deg);
+        }
+
+        .cat-eyes {
+            position: absolute;
+            top: 20px;
+            left: 25px;
+            width: 50px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .eye {
+            width: 20px;
+            height: 30px;
+            background: var(--neon-green);
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 15px var(--neon-green);
+            animation: blink 5s infinite;
+        }
+
+        @keyframes blink {
+            0%, 45%, 51%, 94%, 100% { height: 30px; }
+            48%, 92% { height: 5px; }
+        }
+
+        .cat-tail {
+            position: absolute;
+            top: 30px;
+            right: -60px;
+            width: 80px;
+            height: 15px;
+            background: linear-gradient(to right, var(--neon-blue), var(--neon-purple));
+            border-radius: 0 10px 10px 0;
+            transform-origin: left center;
+            animation: tailMove 3s infinite alternate;
+        }
+
+        @keyframes tailMove {
+            0% { transform: rotate(-10deg); }
+            100% { transform: rotate(10deg); }
+        }
+
+        /* Неоновая кнопка */
+        .btn {
+            display: inline-block;
+            padding: 15px 45px;
+            background: transparent;
+            border: 2px solid var(--neon-blue);
+            color: var(--neon-blue);
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+            margin-top: 30px;
+        }
+
+        .btn:hover {
+            background: var(--neon-blue);
+            color: var(--dark-bg);
+            box-shadow: 0 0 25px var(--neon-blue);
+            transform: translateY(-5px);
+        }
+
+        /* Карточки */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 80px 0;
+        }
+
+        .card {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px 30px;
+            border: 1px solid rgba(255, 42, 109, 0.1);
+            transition: transform 0.4s, box-shadow 0.4s;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.6s ease, transform 0.6s ease, box-shadow 0.4s;
+        }
+
+        .card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--neon-pink), var(--neon-blue));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s;
+        }
+
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 10px 30px rgba(255, 42, 109, 0.3);
+            border: 1px solid rgba(255, 42, 109, 0.3);
+        }
+
+        .card i {
+            font-size: 3rem;
+            margin-bottom: 25px;
+            color: var(--neon-purple);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover i {
+            transform: scale(1.2);
+        }
+
+        .card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--neon-pink);
+        }
+
+        .card p {
+            transition: all 0.3s ease;
+        }
+
+        .card:hover p {
+            color: #fff;
+        }
+
+        /* 3D куб */
+        .tech-cube-container {
+            width: 300px;
+            height: 300px;
+            margin: 60px auto;
+            perspective: 1000px;
+        }
+
+        .cube {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transform: rotateX(25deg) rotateY(-25deg);
+            animation: rotateCube 20s infinite linear;
+        }
+
+        .face {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: var(--glass);
+            border: 2px solid var(--neon-blue);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-shadow: inset 0 0 30px rgba(5, 217, 232, 0.3),
+                        0 0 20px rgba(5, 217, 232, 0.3);
+            backdrop-filter: blur(5px);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .face:hover {
+            box-shadow: inset 0 0 40px rgba(5, 217, 232, 0.5),
+                        0 0 40px rgba(5, 217, 232, 0.5);
+        }
+
+        .face h3 {
+            color: var(--neon-pink);
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .front  { transform: rotateY(0deg) translateZ(150px); }
+        .back   { transform: rotateY(180deg) translateZ(150px); }
+        .right  { transform: rotateY(90deg) translateZ(150px); }
+        .left   { transform: rotateY(-90deg) translateZ(150px); }
+        .top    { transform: rotateX(90deg) translateZ(150px); }
+        .bottom { transform: rotateX(-90deg) translateZ(150px); }
+
+        @keyframes rotateCube {
+            0% { transform: rotateX(0) rotateY(0); }
+            100% { transform: rotateX(360deg) rotateY(360deg); }
+        }
+
+        /* Футер */
+        footer {
+            text-align: center;
+            padding: 50px 0 30px;
+            margin-top: 100px;
+            border-top: 1px solid rgba(5, 217, 232, 0.2);
+            position: relative;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .social-links a {
+            color: var(--neon-blue);
+            font-size: 1.8rem;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .social-links a span {
+            font-size: 0.8rem;
+            margin-top: 5px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--neon-pink);
+            transform: scale(1.2);
+        }
+
+        .social-links a:hover span {
+            opacity: 1;
+        }
+
+        /* Анимация фона */
+        .grid-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(rgba(12, 12, 21, 0.8) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(12, 12, 21, 0.8) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        /* Неоновые линии */
+        .neon-lines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .line {
+            position: absolute;
+            background: rgba(5, 217, 232, 0.1);
+            box-shadow: 0 0 10px rgba(5, 217, 232, 0.5);
+        }
+
+        .line-1 {
+            top: 20%;
+            left: -100px;
+            width: 200px;
+            height: 2px;
+            animation: moveLine 15s linear infinite;
+        }
+
+        .line-2 {
+            top: 40%;
+            left: -150px;
+            width: 150px;
+            height: 1px;
+            animation: moveLine 12s linear infinite;
+            animation-delay: 2s;
+        }
+
+        .line-3 {
+            top: 70%;
+            left: -200px;
+            width: 300px;
+            height: 3px;
+            animation: moveLine 20s linear infinite;
+            animation-delay: 5s;
+        }
+
+        @keyframes moveLine {
+            to {
+                left: 100%;
+            }
+        }
+
+        /* Эффект частиц */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            top: 0;
+            left: 0;
+        }
+
+        /* Параллакс секции */
+        .parallax-section {
+            padding: 150px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            background: rgba(10, 10, 20, 0.7);
+            margin: 80px 0;
+            border-radius: 30px;
+        }
+
+        .parallax-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px;
+            background: var(--glass);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 42, 109, 0.2);
+        }
+
+        .parallax-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100"><rect width="100" height="100" fill="none"/><path d="M20,20 Q40,5 60,20 T100,20 M20,50 Q40,35 60,50 T100,50 M20,80 Q40,65 60,80 T100,80" stroke="rgba(255,42,109,0.1)" stroke-width="0.5" fill="none"/></svg>');
+            background-size: 300px;
+            opacity: 0.3;
+            z-index: 1;
+        }
+
+        /* Аудио элементы */
+        .audio-controls {
+            margin-top: 30px;
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .audio-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--glass);
+            border: 2px solid var(--neon-purple);
+            color: var(--neon-purple);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .audio-btn::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, var(--neon-purple) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .audio-btn:hover::before {
+            opacity: 0.2;
+        }
+
+        .audio-btn:hover {
+            background: var(--neon-purple);
+            color: var(--dark-bg);
+            box-shadow: 0 0 20px var(--neon-purple);
+            transform: scale(1.1);
+        }
+
+        /* Новая секция: Терминал */
+        .terminal-section {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid var(--neon-green);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 50px 0;
+            font-family: 'Courier New', monospace;
+            box-shadow: 0 0 30px rgba(57, 255, 20, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .terminal-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .terminal-buttons {
+            display: flex;
+            gap: 8px;
+            margin-right: 15px;
+        }
+
+        .terminal-btn {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .terminal-btn:hover {
+            transform: scale(1.2);
+        }
+
+        .btn-close { background: #ff5f57; }
+        .btn-min { background: #ffbd2e; }
+        .btn-max { background: #28c940; }
+
+        .terminal-title {
+            color: var(--neon-green);
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        .terminal-body {
+            color: var(--neon-green);
+            line-height: 1.8;
+            font-size: 1.1rem;
+            min-height: 200px;
+            overflow-y: auto;
+            max-height: 300px;
+        }
+
+        .terminal-input {
+            display: flex;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .terminal-prompt {
+            color: var(--neon-yellow);
+            margin-right: 10px;
+        }
+
+        .terminal-cursor {
+            display: inline-block;
+            width: 10px;
+            height: 18px;
+            background: var(--neon-green);
+            margin-left: 5px;
+            animation: blink 1s infinite;
+        }
+
+        /* Матричный дождь */
+        .matrix-rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        .matrix-column {
+            display: inline-block;
+            color: rgba(0, 255, 0, 0.2);
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            font-family: 'Courier New', monospace;
+            font-size: 18px;
+            letter-spacing: -5px;
+            animation: rain 1.5s linear infinite;
+        }
+
+        @keyframes rain {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100vh); }
+        }
+
+        /* Голограмма */
+        .hologram-section {
+            margin: 80px 0;
+            text-align: center;
+        }
+
+        .hologram-container {
+            width: 300px;
+            height: 300px;
+            margin: 0 auto;
+            position: relative;
+            perspective: 1000px;
+        }
+
+        .hologram {
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(5,217,232,0.3) 0%, rgba(255,42,109,0.1) 70%);
+            border-radius: 50%;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: rotateHologram 20s infinite linear;
+            box-shadow: 0 0 100px rgba(5, 217, 232, 0.5);
+        }
+
+        .hologram-inner {
+            width: 70%;
+            height: 70%;
+            background: radial-gradient(circle, rgba(255,42,109,0.3) 0%, rgba(5,217,232,0.1) 70%);
+            border-radius: 50%;
+            position: absolute;
+            animation: pulse 4s infinite alternate;
+        }
+
+        .hologram-core {
+            width: 40%;
+            height: 40%;
+            background: radial-gradient(circle, var(--neon-pink) 0%, transparent 70%);
+            border-radius: 50%;
+            position: absolute;
+            animation: pulse 2s infinite alternate;
+        }
+
+        .hologram-grid {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle, transparent 20%, rgba(5,217,232,0.05) 100%),
+                linear-gradient(0deg, transparent 49%, rgba(255,42,109,0.1) 50%, transparent 51%),
+                linear-gradient(90deg, transparent 49%, rgba(255,42,109,0.1) 50%, transparent 51%),
+                linear-gradient(45deg, transparent 49%, rgba(255,42,109,0.1) 50%, transparent 51%),
+                linear-gradient(-45deg, transparent 49%, rgba(255,42,109,0.1) 50%, transparent 51%);
+        }
+
+        @keyframes rotateHologram {
+            from { transform: rotateY(0); }
+            to { transform: rotateY(360deg); }
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.3; }
+            100% { opacity: 0.8; }
+        }
+
+        /* Новые элементы: Цифровые часы */
+        .digital-clock {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            font-family: 'Orbitron', sans-serif;
+            color: var(--neon-green);
+            font-size: 1.5rem;
+            padding: 10px 20px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--neon-green);
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(57, 255, 20, 0.3);
+            z-index: 100;
+        }
+
+        /* Новые элементы: Морфинг логотип */
+        .logo-morph {
+            display: inline-block;
+            position: relative;
+        }
+
+        .logo-text {
+            transition: opacity 0.5s ease;
+        }
+
+        /* Новые элементы: Анимированный сканер */
+        .scanner-effect {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(to right, transparent, var(--neon-blue), transparent);
+            box-shadow: 0 0 20px var(--neon-blue);
+            transform: translateY(-100%);
+            animation: scan 3s infinite;
+            z-index: 2;
+        }
+
+        @keyframes scan {
+            0% { transform: translateY(-100%); }
+            50% { transform: translateY(100vh); }
+            100% { transform: translateY(100vh); }
+        }
+
+        /* Новые элементы: Интерактивная карта */
+        .cyber-map {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 15px;
+            max-width: 600px;
+            margin: 40px auto;
+            height: 400px;
+        }
+
+        .map-node {
+            background: var(--glass);
+            border: 1px solid var(--neon-purple);
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .map-node::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, var(--neon-purple) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .map-node:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px var(--neon-purple);
+            border: 1px solid var(--neon-blue);
+        }
+
+        .map-node:hover::before {
+            opacity: 0.2;
+        }
+
+        .map-node i {
+            font-size: 2rem;
+            color: var(--neon-blue);
+        }
+
+        .node-1 { grid-column: 2; grid-row: 1; }
+        .node-2 { grid-column: 3; grid-row: 1; }
+        .node-3 { grid-column: 1; grid-row: 2; }
+        .node-4 { grid-column: 2; grid-row: 2; }
+        .node-5 { grid-column: 3; grid-row: 2; }
+        .node-6 { grid-column: 4; grid-row: 2; }
+        .node-7 { grid-column: 2; grid-row: 3; }
+        .node-8 { grid-column: 3; grid-row: 3; }
+
+        /* Новые элементы: Интерактивный фон */
+        .interactive-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -3;
+            pointer-events: none;
+        }
+
+        .bg-element {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--neon-pink) 0%, transparent 70%);
+            opacity: 0.1;
+            filter: blur(10px);
+        }
+
+        /* Новые элементы: Цифровой лом */
+        .digital-glitch {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            pointer-events: none;
+            opacity: 0;
+            background: 
+                linear-gradient(rgba(255, 0, 0, 0.1), 
+                linear-gradient(rgba(0, 255, 0, 0.1), 
+                linear-gradient(rgba(0, 0, 255, 0.1);
+            mix-blend-mode: overlay;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                gap: 15px;
+                align-items: center;
+            }
+            
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+            
+            .tech-cube-container {
+                width: 200px;
+                height: 200px;
+            }
+            
+            .face {
+                width: 200px;
+                height: 200px;
+            }
+            
+            .front, .back, .right, .left, .top, .bottom {
+                transform: translateZ(100px);
+            }
+            
+            .cyber-map {
+                grid-template-columns: repeat(2, 1fr);
+                grid-template-rows: repeat(4, 1fr);
+                height: 500px;
+                max-width: 400px;
+            }
+            
+            .node-1 { grid-column: 1; grid-row: 1; }
+            .node-2 { grid-column: 2; grid-row: 1; }
+            .node-3 { grid-column: 1; grid-row: 2; }
+            .node-4 { grid-column: 2; grid-row: 2; }
+            .node-5 { grid-column: 1; grid-row: 3; }
+            .node-6 { grid-column: 2; grid-row: 3; }
+            .node-7 { grid-column: 1; grid-row: 4; }
+            .node-8 { grid-column: 2; grid-row: 4; }
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-bg"></div>
+    <div class="matrix-rain" id="matrixRain"></div>
+    <div class="neon-lines">
+        <div class="line line-1"></div>
+        <div class="line line-2"></div>
+        <div class="line line-3"></div>
+    </div>
+    <div id="particles-js"></div>
+    <div class="interactive-bg" id="interactiveBg"></div>
+    <div class="digital-glitch" id="digitalGlitch"></div>
+    <div class="digital-clock" id="digitalClock">00:00:00</div>
+    <div class="scanner-effect" id="scannerEffect"></div>
+    
+    <div class="container">
+        <header>
+            <div class="logo">
+                <div class="logo-morph">
+                    <span class="logo-text">NEON SPACE</span>
+                </div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#"><i class="fas fa-home"></i> Главная</a></li>
+                    <li><a href="#"><i class="fas fa-star"></i> Технологии</a></li>
+                    <li><a href="#"><i class="fas fa-project-diagram"></i> Проекты</a></li>
+                    <li><a href="#"><i class="fas fa-users"></i> Команда</a></li>
+                    <li><a href="#"><i class="fas fa-envelope"></i> Контакты</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <section class="hero">
+            <h1>КИБЕРКОТ ПРИВЕТСТВУЕТ ТЕБЯ</h1>
+            <p>Погрузись в цифровую вселенную, где технологии и искусственный интеллект создают будущее.</p>
+            
+            <div class="cyber-cat" id="cyberCat">
+                <div class="cat-body">
+                    <div class="cat-head">
+                        <div class="cat-ears">
+                            <div class="ear left"></div>
+                            <div class="ear right"></div>
+                        </div>
+                        <div class="cat-eyes">
+                            <div class="eye left"></div>
+                            <div class="eye right"></div>
+                        </div>
+                    </div>
+                    <div class="cat-tail"></div>
+                </div>
+            </div>
+            
+            <button class="btn" id="activateBtn">АКТИВИРОВАТЬ СИСТЕМУ</button>
+            
+            <div class="audio-controls">
+                <div class="audio-btn" id="sound1">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <div class="audio-btn" id="sound2">
+                    <i class="fas fa-music"></i>
+                </div>
+                <div class="audio-btn" id="sound3">
+                    <i class="fas fa-cat"></i>
+                </div>
+            </div>
+        </section>
+
+        <section class="parallax-section">
+            <div class="parallax-bg"></div>
+            <div class="parallax-content">
+                <h2>ТЕХНОЛОГИИ БУДУЩЕГО</h2>
+                <p>Наши разработки на стыке нейроинтерфейсов, квантовых вычислений и искусственного интеллекта создают новую реальность, где граница между человеком и машиной стирается.</p>
+                <p>Киберкот - наш первый полностью автономный ИИ-агент, способный обучаться и адаптироваться в реальном времени.</p>
+                
+                <div class="cyber-map">
+                    <div class="map-node node-1" data-info="Центральный ИИ"><i class="fas fa-brain"></i></div>
+                    <div class="map-node node-2" data-info="Квантовый компьютер"><i class="fas fa-atom"></i></div>
+                    <div class="map-node node-3" data-info="Нейросеть Alpha"><i class="fas fa-network-wired"></i></div>
+                    <div class="map-node node-4" data-info="База данных"><i class="fas fa-database"></i></div>
+                    <div class="map-node node-5" data-info="VR Центр"><i class="fas fa-vr-cardboard"></i></div>
+                    <div class="map-node node-6" data-info="Биолаборатория"><i class="fas fa-dna"></i></div>
+                    <div class="map-node node-7" data-info="Киберзащита"><i class="fas fa-shield-alt"></i></div>
+                    <div class="map-node node-8" data-info="Спутниковая сеть"><i class="fas fa-satellite"></i></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="terminal-section">
+            <div class="terminal-header">
+                <div class="terminal-buttons">
+                    <div class="terminal-btn btn-close"></div>
+                    <div class="terminal-btn btn-min"></div>
+                    <div class="terminal-btn btn-max"></div>
+                </div>
+                <div class="terminal-title">system@neon-space:~</div>
+            </div>
+            <div class="terminal-body" id="terminalOutput">
+                <div>> Инициализация системы... УСПЕШНО</div>
+                <div>> Загрузка нейронной сети... 100%</div>
+                <div>> Подключение к киберпространству... УСТАНОВЛЕНО</div>
+                <div>> Сканирование пользователя...</div>
+                <div id="terminalText"></div>
+            </div>
+            <div class="terminal-input">
+                <span class="terminal-prompt">neon-space:~$</span>
+                <span id="terminalCommand">_</span>
+                <span class="terminal-cursor"></span>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="card">
+                <i class="fas fa-brain"></i>
+                <h3>Искусственный Интеллект</h3>
+                <p>Нейросети нового поколения способные решать задачи любой сложности и адаптироваться под пользователя.</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-vr-cardboard"></i>
+                <h3>Виртуальная Реальность</h3>
+                <p>Полное погружение в цифровые вселенные с ультра-реалистичной графикой и тактильной обратной связью.</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-microchip"></i>
+                <h3>Нейроинтерфейсы</h3>
+                <p>Управление технологиями силой мысли через прямую нейронную интеграцию.</p>
+            </div>
+        </section>
+
+        <div class="hologram-section">
+            <h2 style="margin-bottom: 40px; color: var(--neon-blue);">ГОЛОГРАФИЧЕСКИЙ ПРОЕКТОР</h2>
+            <div class="hologram-container">
+                <div class="hologram">
+                    <div class="hologram-inner"></div>
+                    <div class="hologram-core"></div>
+                    <div class="hologram-grid"></div>
+                </div>
+            </div>
+            <p style="margin-top: 30px; max-width: 600px; margin-left: auto; margin-right: auto;">
+                Наша технология голографической проекции создает реалистичные 3D-образы в воздухе, используя квантовые точки и лазерную интерференцию.
+            </p>
+        </div>
+
+        <div class="tech-cube-container">
+            <div class="cube">
+                <div class="face front">
+                    <i class="fas fa-atom"></i>
+                    <h3>КВАНТОВЫЕ СИСТЕМЫ</h3>
+                </div>
+                <div class="face back">
+                    <i class="fas fa-robot"></i>
+                    <h3>ИИ АГЕНТЫ</h3>
+                </div>
+                <div class="face right">
+                    <i class="fas fa-dna"></i>
+                    <h3>БИО-ХАКИНГ</h3>
+                </div>
+                <div class="face left">
+                    <i class="fas fa-network-wired"></i>
+                    <h3>НЕЙРОСЕТИ</h3>
+                </div>
+                <div class="face top">
+                    <i class="fas fa-rocket"></i>
+                    <h3>КОСМО-ТЕХ</h3>
+                </div>
+                <div class="face bottom">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>КИБЕРЗАЩИТА</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="social-links">
+                <a href="#"><i class="fab fa-discord"></i><span>Discord</span></a>
+                <a href="#"><i class="fab fa-telegram"></i><span>Telegram</span></a>
+                <a href="#"><i class="fab fa-github"></i><span>GitHub</span></a>
+                <a href="#"><i class="fab fa-instagram"></i><span>Instagram</span></a>
+            </div>
+            <p>© 2025 NEON SPACE | Все права в цифровой вселенной защищены</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Инициализация частиц
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 80, density: { enable: true, value_area: 800 } },
+                color: { value: "#05d9e8" },
+                shape: { type: "circle" },
+                opacity: { value: 0.5, random: true },
+                size: { value: 3, random: true },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: "#ff2a6d",
+                    opacity: 0.2,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 2,
+                    direction: "none",
+                    random: true,
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false
+                }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: { enable: true, mode: "repulse" },
+                    onclick: { enable: true, mode: "push" },
+                    resize: true
+                }
+            }
+        });
+
+        // Матричный дождь
+        const matrixRain = document.getElementById('matrixRain');
+        const chars = "アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ$#@%&*";
+        
+        for (let i = 0; i < 50; i++) {
+            const column = document.createElement('div');
+            column.className = 'matrix-column';
+            column.style.left = `${Math.random() * 100}%`;
+            column.style.animationDelay = `${Math.random() * 5}s`;
+            column.style.animationDuration = `${1 + Math.random() * 3}s`;
+            
+            let text = '';
+            for (let j = 0; j < 50; j++) {
+                text += chars[Math.floor(Math.random() * chars.length)];
+            }
+            column.textContent = text;
+            
+            matrixRain.appendChild(column);
+        }
+
+        // Терминал с анимацией текста
+        const terminalText = document.getElementById('terminalText');
+        const terminalOutput = document.getElementById('terminalOutput');
+        const terminalCommand = document.getElementById('terminalCommand');
+        const messages = [
+            "> Обнаружен пользователь: Гость",
+            "> Уровень доступа: ОМЕГА",
+            "> Анализ биометрических данных...",
+            "> Уровень стресса: 12%",
+            "> Уровень вовлеченности: 98%",
+            "> Рекомендация: повысить уровень доступа",
+            "> Запуск протокола 'КИБЕРКОТ'...",
+            "> Подключение к центральному ИИ... УСПЕШНО"
+        ];
+        
+        let messageIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        
+        function typeTerminalText() {
+            const currentMessage = messages[messageIndex];
+            
+            if (!isDeleting && charIndex <= currentMessage.length) {
+                terminalText.textContent = currentMessage.substring(0, charIndex);
+                charIndex++;
+                terminalOutput.scrollTop = terminalOutput.scrollHeight;
+                setTimeout(typeTerminalText, 50);
+            } else if (isDeleting && charIndex >= 0) {
+                terminalText.textContent = currentMessage.substring(0, charIndex);
+                charIndex--;
+                setTimeout(typeTerminalText, 30);
+            } else {
+                isDeleting = !isDeleting;
+                if (!isDeleting) {
+                    messageIndex = (messageIndex + 1) % messages.length;
+                }
+                setTimeout(typeTerminalText, 1000);
+            }
+        }
+        
+        // Имитация ввода команд
+        const commands = [
+            "activate cyber-cat",
+            "run security_protocol",
+            "scan user",
+            "connect neural_network",
+            "initiate hologram",
+            "enable matrix_vision"
+        ];
+        
+        let commandIndex = 0;
+        let cmdCharIndex = 0;
+        let isCmdDeleting = false;
+        
+        function typeCommand() {
+            const currentCommand = commands[commandIndex];
+            
+            if (!isCmdDeleting && cmdCharIndex <= currentCommand.length) {
+                terminalCommand.textContent = currentCommand.substring(0, cmdCharIndex);
+                cmdCharIndex++;
+                setTimeout(typeCommand, 100);
+            } else if (isCmdDeleting && cmdCharIndex >= 0) {
+                terminalCommand.textContent = currentCommand.substring(0, cmdCharIndex);
+                cmdCharIndex--;
+                setTimeout(typeCommand, 50);
+            } else {
+                isCmdDeleting = !isCmdDeleting;
+                if (!isCmdDeleting) {
+                    commandIndex = (commandIndex + 1) % commands.length;
+                }
+                setTimeout(typeCommand, 2000);
+            }
+        }
+        
+        // Запуск анимаций терминала
+        setTimeout(() => {
+            typeTerminalText();
+            typeCommand();
+        }, 3000);
+
+        // Аудио эффекты
+        const sounds = {
+            sound1: new Audio("https://assets.mixkit.co/sfx/preview/mixkit-sci-fi-positive-notification-266.mp3"),
+            sound2: new Audio("https://assets.mixkit.co/sfx/preview/mixkit-game-show-suspense-waiting-667.mp3"),
+            sound3: new Audio("https://assets.mixkit.co/sfx/preview/mixkit-big-cat-angry-roar-14.mp3")
+        };
+
+        document.getElementById('sound1').addEventListener('click', () => {
+            sounds.sound1.currentTime = 0;
+            sounds.sound1.play();
+            
+            // Анимация вспышки
+            document.body.style.backgroundColor = 'rgba(255, 42, 109, 0.2)';
+            setTimeout(() => {
+                document.body.style.backgroundColor = '';
+            }, 300);
+        });
+
+        document.getElementById('sound2').addEventListener('click', () => {
+            sounds.sound2.currentTime = 0;
+            sounds.sound2.play();
+            
+            // Анимация для кнопки
+            const btn = document.getElementById('sound2');
+            btn.style.transform = 'scale(0.8)';
+            setTimeout(() => {
+                btn.style.transform = '';
+            }, 300);
+        });
+
+        document.getElementById('sound3').addEventListener('click', () => {
+            sounds.sound3.currentTime = 0;
+            sounds.sound3.play();
+            
+            // Анимация кота
+            const eyes = document.querySelectorAll('.eye');
+            eyes.forEach(eye => {
+                eye.style.height = '5px';
+                setTimeout(() => {
+                    eye.style.height = '';
+                }, 200);
+            });
+        });
+
+        // Активация системы
+        document.getElementById('activateBtn').addEventListener('click', function() {
+            this.textContent = "СИСТЕМА АКТИВИРОВАНА!";
+            this.style.background = 'var(--neon-green)';
+            this.style.color = 'var(--dark-bg)';
+            this.style.boxShadow = '0 0 40px var(--neon-green)';
+            this.style.borderColor = 'var(--neon-green)';
+            
+            // Анимация активации
+            const cat = document.querySelector('.cyber-cat');
+            cat.style.transform = 'scale(1.2)';
+            setTimeout(() => {
+                cat.style.transform = '';
+            }, 500);
+            
+            // Запуск анимации куба
+            document.querySelector('.cube').style.animation = 'rotateCube 10s infinite linear';
+            
+            // Усиление частиц
+            particlesJS('particles-js', {
+                particles: {
+                    number: { value: 150, density: { enable: true, value_area: 800 } },
+                    color: { value: "#05d9e8" },
+                    shape: { type: "circle" },
+                    opacity: { value: 0.7, random: true },
+                    size: { value: 5, random: true },
+                    line_linked: {
+                        enable: true,
+                        distance: 150,
+                        color: "#ff2a6d",
+                        opacity: 0.4,
+                        width: 1
+                    },
+                    move: {
+                        enable: true,
+                        speed: 3,
+                        direction: "none",
+                        random: true,
+                        straight: false,
+                        out_mode: "out",
+                        bounce: false
+                    }
+                }
+            });
+            
+            // Показать все карточки
+            document.querySelectorAll('.card').forEach(card => {
+                card.classList.add('visible');
+            });
+        });
+
+        // Параллакс эффект
+        window.addEventListener('scroll', function() {
+            const scrolled = window.scrollY;
+            const parallax = document.querySelector('.parallax-bg');
+            parallax.style.transform = `translateY(${scrolled * 0.5}px)`;
+        });
+
+        // Анимация появления карточек при скролле
+        const cards = document.querySelectorAll('.card');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        cards.forEach(card => {
+            observer.observe(card);
+        });
+
+        // Новые функции: Цифровые часы
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('digitalClock').textContent = `${hours}:${minutes}:${seconds}`;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Новые функции: Интерактивный фон
+        const interactiveBg = document.getElementById('interactiveBg');
+        for (let i = 0; i < 20; i++) {
+            const element = document.createElement('div');
+            element.className = 'bg-element';
+            element.style.width = `${100 + Math.random() * 200}px`;
+            element.style.height = element.style.width;
+            element.style.left = `${Math.random() * 100}%`;
+            element.style.top = `${Math.random() * 100}%`;
+            element.style.opacity = `${0.05 + Math.random() * 0.1}`;
+            element.style.animation = `pulse ${5 + Math.random() * 10}s infinite alternate`;
+            interactiveBg.appendChild(element);
+        }
+
+        // Новые функции: Эффект глитча
+        function triggerGlitch() {
+            const glitch = document.getElementById('digitalGlitch');
+            glitch.style.opacity = '0.5';
+            glitch.style.animation = 'none';
+            setTimeout(() => {
+                glitch.style.animation = 'glitchEffect 0.3s';
+                setTimeout(() => {
+                    glitch.style.opacity = '0';
+                }, 300);
+            }, 10);
+        }
+        
+        // Запуск глитча случайным образом
+        setInterval(() => {
+            if (Math.random() > 0.7) {
+                triggerGlitch();
+            }
+        }, 5000);
+
+        // Новые функции: Интерактивная карта
+        const mapNodes = document.querySelectorAll('.map-node');
+        mapNodes.forEach(node => {
+            node.addEventListener('click', function() {
+                const info = this.getAttribute('data-info');
+                const terminalOutput = document.getElementById('terminalOutput');
+                
+                // Эффект для узла
+                this.style.transform = 'scale(1.1)';
+                this.style.boxShadow = '0 0 30px var(--neon-blue)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                    this.style.boxShadow = '';
+                }, 500);
+                
+                // Добавление информации в терминал
+                const newEntry = document.createElement('div');
+                newEntry.textContent = `> Доступ к узлу: ${info}`;
+                terminalOutput.appendChild(newEntry);
+                terminalOutput.scrollTop = terminalOutput.scrollHeight;
+                
+                // Звуковой эффект
+                sounds.sound1.currentTime = 0;
+                sounds.sound1.play();
+            });
+        });
+
+        // Новые функции: Морфинг логотипа
+        const logoText = document.querySelector('.logo-text');
+        const variants = ["NEON SPACE", "N3ON SP4C3", "N30N 5P4C3", "NEON SP4C3"];
+        let currentVariant = 0;
+        
+        function morphLogo() {
+            logoText.style.opacity = 0;
+            setTimeout(() => {
+                currentVariant = (currentVariant + 1) % variants.length;
+                logoText.textContent = variants[currentVariant];
+                logoText.style.opacity = 1;
+            }, 500);
+        }
+        
+        setInterval(morphLogo, 3000);
+        document.querySelector('.logo').addEventListener('click', morphLogo);
+
+        // Новые функции: Анимация сканера
+        const scannerEffect = document.getElementById('scannerEffect');
+        setInterval(() => {
+            scannerEffect.style.animation = 'none';
+            setTimeout(() => {
+                scannerEffect.style.animation = 'scan 3s infinite';
+            }, 10);
+        }, 3000);
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <!-- ... существующие стили ... -->
+    <style>
+        /* Добавленные стили */
+        .cyber-cat:hover {
+            transform: scale(1.1) rotate(-5deg);
+            filter: drop-shadow(0 0 15px var(--neon-pink));
+        }
+        
+        .cat-head {
+            animation: headTilt 5s infinite alternate;
+        }
+        
+        @keyframes headTilt {
+            0% { transform: rotate(0); }
+            100% { transform: rotate(5deg); }
+        }
+        
+        .eye {
+            animation: blink 5s infinite, glow 2s infinite alternate;
+        }
+        
+        @keyframes glow {
+            0% { box-shadow: 0 0 10px var(--neon-green); }
+            100% { box-shadow: 0 0 25px var(--neon-green); }
+        }
+        
+        .terminal-body {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .terminal-body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                rgba(57, 255, 20, 0.1) 0%, 
+                transparent 10%,
+                transparent 90%,
+                rgba(57, 255, 20, 0.1) 100%
+            );
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .map-node {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .map-node::after {
+            content: attr(data-info);
+            position: absolute;
+            bottom: -30px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            color: var(--neon-blue);
+            font-size: 0.9rem;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .map-node:hover::after {
+            bottom: 10px;
+            opacity: 1;
+        }
+        
+        .pulse-circle {
+            position: absolute;
+            border-radius: 50%;
+            border: 1px solid var(--neon-blue);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(0.5); opacity: 0.7; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+        
+        .particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: var(--neon-blue);
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <!-- ... существующая разметка ... -->
+    
+    <!-- Добавленные элементы -->
+    <div class="particles-container" id="particlesContainer"></div>
+    
+    <script>
+        // ... существующий код ...
+
+        // Улучшенная анимация кота
+        function animateCat() {
+            const cat = document.getElementById('cyberCat');
+            const eyes = document.querySelectorAll('.eye');
+            
+            // Случайное моргание
+            setInterval(() => {
+                if (Math.random() > 0.7) {
+                    eyes.forEach(eye => {
+                        eye.style.height = '5px';
+                        setTimeout(() => {
+                            eye.style.height = '';
+                        }, 200);
+                    });
+                }
+            }, 3000);
+            
+            // Анимация при наведении
+            cat.addEventListener('mouseenter', () => {
+                document.querySelector('.cat-tail').style.animation = 'tailMove 0.5s infinite alternate';
+            });
+            
+            cat.addEventListener('mouseleave', () => {
+                document.querySelector('.cat-tail').style.animation = 'tailMove 3s infinite alternate';
+            });
+        }
+
+        // Пульсирующие круги для узлов карты
+        function addPulseEffects() {
+            const nodes = document.querySelectorAll('.map-node');
+            nodes.forEach(node => {
+                setInterval(() => {
+                    if (Math.random() > 0.5) {
+                        const circle = document.createElement('div');
+                        circle.className = 'pulse-circle';
+                        circle.style.width = `${node.offsetWidth}px`;
+                        circle.style.height = `${node.offsetHeight}px`;
+                        circle.style.top = '0';
+                        circle.style.left = '0';
+                        node.appendChild(circle);
+                        
+                        setTimeout(() => {
+                            node.removeChild(circle);
+                        }, 2000);
+                    }
+                }, 3000);
+            });
+        }
+
+        // Динамические частицы
+        function createParticles() {
+            const container = document.getElementById('particlesContainer');
+            const colors = [var(--neon-pink), var(--neon-blue), var(--neon-purple), var(--neon-green)];
+            
+            setInterval(() => {
+                if (Math.random() > 0.3) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    
+                    // Случайные свойства
+                    const size = 2 + Math.random() * 8;
+                    const color = colors[Math.floor(Math.random() * colors.length)];
+                    
+                    particle.style.width = `${size}px`;
+                    particle.style.height = `${size}px`;
+                    particle.style.background = color;
+                    particle.style.left = `${Math.random() * 100}%`;
+                    particle.style.top = `${Math.random() * 100}%`;
+                    particle.style.boxShadow = `0 0 ${size * 2}px ${color}`;
+                    
+                    // Анимация
+                    const duration = 2 + Math.random() * 5;
+                    particle.style.animation = `float ${duration}s linear forwards`;
+                    
+                    container.appendChild(particle);
+                    
+                    // Удаление после завершения анимации
+                    setTimeout(() => {
+                        if (particle.parentNode) {
+                            container.removeChild(particle);
+                        }
+                    }, duration * 1000);
+                }
+            }, 100);
+        }
+
+        // Анимация плавающих частиц
+        const style = document.createElement('style');
+        style.innerHTML = `
+            @keyframes float {
+                0% { transform: translateY(0) translateX(0); opacity: 0.7; }
+                100% { transform: translateY(${Math.random() > 0.5 ? '-' : ''}${20 + Math.random() * 50}vh) 
+                         translateX(${Math.random() > 0.5 ? '-' : ''}${10 + Math.random() * 30}vw); 
+                       opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Интерактивный терминал
+        function makeTerminalInteractive() {
+            const terminal = document.querySelector('.terminal-section');
+            terminal.addEventListener('click', () => {
+                terminal.style.transform = 'scale(1.02)';
+                setTimeout(() => {
+                    terminal.style.transform = '';
+                }, 300);
+                
+                // Добавляем эффект сканирования
+                const scanLine = document.createElement('div');
+                scanLine.style.position = 'absolute';
+                scanLine.style.top = '0';
+                scanLine.style.left = '0';
+                scanLine.style.width = '100%';
+                scanLine.style.height = '3px';
+                scanLine.style.background = 'linear-gradient(to right, transparent, var(--neon-green), transparent)';
+                scanLine.style.boxShadow = '0 0 15px var(--neon-green)';
+                scanLine.style.animation = 'scan 1.5s linear';
+                
+                terminal.appendChild(scanLine);
+                
+                setTimeout(() => {
+                    terminal.removeChild(scanLine);
+                }, 1500);
+            });
+        }
+
+        // Инициализация новых функций
+        window.addEventListener('load', () => {
+            animateCat();
+            addPulseEffects();
+            createParticles();
+            makeTerminalInteractive();
+            
+            // Улучшенная активация системы
+            document.getElementById('activateBtn').addEventListener('click', function() {
+                // ... существующий код ...
+                
+                // Дополнительные эффекты
+                const particlesContainer = document.getElementById('particlesContainer');
+                for (let i = 0; i < 50; i++) {
+                    setTimeout(() => {
+                        const particle = document.createElement('div');
+                        particle.className = 'particle';
+                        particle.style.width = '10px';
+                        particle.style.height = '10px';
+                        particle.style.background = 'var(--neon-green)';
+                        particle.style.left = '50%';
+                        particle.style.top = '50%';
+                        particle.style.boxShadow = '0 0 20px var(--neon-green)';
+                        particle.style.animation = `explode ${1 + Math.random()}s ease-out forwards`;
+                        
+                        particlesContainer.appendChild(particle);
+                        
+                        setTimeout(() => {
+                            if (particle.parentNode) {
+                                particlesContainer.removeChild(particle);
+                            }
+                        }, 2000);
+                    }, i * 30);
+                }
+                
+                // Анимация взрыва
+                const explosionStyle = document.createElement('style');
+                explosionStyle.innerHTML = `
+                    @keyframes explode {
+                        0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+                        100% { transform: translate(${Math.random() * 200 - 100}vw, ${Math.random() * 200 - 100}vh) scale(0.2); opacity: 0; }
+                    }
+                `;
+                document.head.appendChild(explosionStyle);
+            });
+        });
+    </script>
+</body>
+</html>
